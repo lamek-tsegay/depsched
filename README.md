@@ -127,6 +127,7 @@ This mimics how real build systems re-run only what is necessary.
 
 ## Project Structure
 
+```
 depsched/
 │
 ├── src/depsched/
@@ -140,6 +141,7 @@ depsched/
 ├── examples/
 ├── pyproject.toml
 └── README.md
+```
 
 
 
