@@ -1,0 +1,15 @@
+tasks:
+  format:
+    deps: []
+    cmd: "python -m ruff format ."
+    inputs: ["src/**/*.py", "tests/**/*.py"]
+
+  lint:
+    deps: ["format"]
+    cmd: "python -m ruff check ."
+    inputs: ["src/**/*.py", "tests/**/*.py"]
+
+  test:
+    deps: ["lint"]
+    cmd: "pytest -q"
+    inputs: ["src/**/*.py", "tests/**/*.py"]
