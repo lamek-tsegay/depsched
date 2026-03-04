@@ -1,5 +1,5 @@
 from __future__ import annotations
-from .timing import schedule_table
+from .timing import schedule_table, compute_critical_path
 
 from pathlib import Path
 from typing import Dict, List, Set, Optional
@@ -149,7 +149,14 @@ def plan_pipeline(config_path: str) -> str:
 
     lines = []
     lines.append("task,start,end,duration")
+
     for t in tasks:
         lines.append(f"{t.name},{t.start:.2f},{t.end:.2f},{t.duration:.2f}")
-    lines.append(f"makespan,,{makespan:.2f},")
+
+    cp, ms = compute_critical_path(graph, durations)
+
+    lines.append("")
+    lines.append("critical_path," + " -> ".join(cp))
+    lines.append(f"makespan,{ms:.2f}")
+
     return "\n".join(lines)

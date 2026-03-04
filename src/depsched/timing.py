@@ -67,3 +67,34 @@ def schedule_table(graph: Graph, durations: Dict[str, float]) -> Tuple[List[Time
     ]
     tasks.sort(key=lambda x: (x.start, x.end, x.name))
     return tasks, makespan
+
+def compute_critical_path(graph: Graph, durations: Dict[str, float]) -> Tuple[List[str], float]:
+    """
+    Returns (critical_path_tasks, makespan).
+
+    Uses earliest-finish times:
+      end[t] = max(end[p] for p in preds[t]) + dur[t]
+    Then backtracks from a task that achieves the makespan.
+    """
+    start, end, makespan = compute_earliest_schedule(graph, durations)
+
+    if not end:
+        return [], 0.0
+
+    # Choose an endpoint that achieves makespan (tie-break by name for stability)
+    end_task = sorted([t for t, e in end.items() if e == makespan])[0]
+
+    path = [end_task]
+    cur = end_task
+
+    while graph.preds[cur]:
+        # predecessor that "caused" the start time (end[p] == start[cur])
+        candidates = [p for p in graph.preds[cur] if end[p] == start[cur]]
+        if not candidates:
+            break
+        prev = sorted(candidates)[0]
+        path.append(prev)
+        cur = prev
+
+    path.reverse()
+    return path, makespan
