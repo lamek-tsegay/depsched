@@ -11,6 +11,7 @@ class TaskSpec:
     cmd: str
     deps: List[str]
     inputs: List[str]
+    duration: float
 
 
 @dataclass(frozen=True)
@@ -40,6 +41,7 @@ def load_pipeline(path: str) -> PipelineSpec:
         cmd = spec.get("cmd")
         deps = spec.get("deps", [])
         inputs = spec.get("inputs", [])
+        duration = spec.get("duration", 0)
 
         if not isinstance(cmd, str) or not cmd.strip():
             raise ValueError(f"Task '{name}' must have non-empty string 'cmd'")
@@ -47,8 +49,16 @@ def load_pipeline(path: str) -> PipelineSpec:
             raise ValueError(f"Task '{name}' 'deps' must be a list[str]")
         if not isinstance(inputs, list) or any(not isinstance(p, str) for p in inputs):
             raise ValueError(f"Task '{name}' 'inputs' must be a list[str]")
+        if not isinstance(duration, (int, float)) or duration < 0:
+            raise ValueError(f"Task '{name}' 'duration' must be a non-negative number")
 
-        tasks[name] = TaskSpec(name=name, cmd=cmd, deps=deps, inputs=inputs)
+        tasks[name] = TaskSpec(
+            name=name,
+            cmd=cmd,
+            deps=deps,
+            inputs=inputs,
+            duration=float(duration),
+        )
 
     for t in tasks.values():
         for d in t.deps:
