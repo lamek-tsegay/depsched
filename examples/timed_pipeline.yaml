@@ -1,0 +1,31 @@
+tasks:
+  dice_onions:
+    deps: []
+    cmd: "python -c \"print('dice onions')\""
+    inputs: ["recipes/*.txt"]
+    duration: 2
+
+  dice_pancetta:
+    deps: []
+    cmd: "python -c \"print('dice pancetta')\""
+    duration: 10
+
+  cook_pancetta:
+    deps: ["dice_pancetta"]
+    cmd: "python -c \"print('cook pancetta')\""
+    duration: 5
+
+  boil_water:
+    deps: []
+    cmd: "python -c \"print('boil water')\""
+    duration: 12
+
+  cook_pasta:
+    deps: ["boil_water"]
+    cmd: "python -c \"print('cook pasta')\""
+    duration: 9
+
+  serve:
+    deps: ["cook_pancetta", "cook_pasta", "dice_onions"]
+    cmd: "python -c \"print('serve')\""
+    duration: 1
