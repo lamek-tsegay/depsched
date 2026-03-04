@@ -74,6 +74,7 @@ depsched reset -c examples/pipeline.yaml
 
 File: examples/pipeline.yaml
 
+```
 tasks:
   format:
     deps: []
@@ -94,6 +95,8 @@ tasks:
     deps: ["test"]
     cmd: "python -c \"print('build ok')\""
     inputs: ["src/**/*.py"]
+
+```
 
 ### Field Explanation
 
