@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 import argparse
-from .engine import run_pipeline, pipeline_status, touch_path, reset_state
-
+from .engine import run_pipeline, pipeline_status, touch_path, reset_state, plan_pipeline
 
 def main() -> None:
     parser = argparse.ArgumentParser(
@@ -16,6 +15,7 @@ def main() -> None:
     sub = parser.add_subparsers(dest="cmd", required=True)
     sub.add_parser("status", help="Show completed/available/pending tasks")
     sub.add_parser("run", help="Run tasks until completion")
+    sub.add_parser("plan", help="Compute earliest-start timeline from task durations")
 
     p_touch = sub.add_parser("touch", help="Invalidate tasks affected by a changed file (cascades downstream)")
     p_touch.add_argument("path", help="Changed file path (used to match task inputs globs)")
@@ -46,6 +46,10 @@ def main() -> None:
         reset_state(args.config, state_path=args.state)
         if verbose:
             print("[depsched] state reset")
+        return
+    if args.cmd == "plan":
+        out = plan_pipeline(args.config)
+        print(out)
         return
 
 
