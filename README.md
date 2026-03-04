@@ -21,10 +21,6 @@ All of these systems:
 2. Execute tasks only when prerequisites are satisfied.
 3. Re-run only what is affected when an input changes.
 
-This project implements those core ideas in a small, readable Python codebase.
-
-
-
 ## Features
 
 - DAG-based task scheduling
@@ -124,9 +120,6 @@ depsched:
 3. Recursively marks all downstream dependent tasks as incomplete.
 4. Saves the updated state.
 
-This mimics how real build systems re-run only what is necessary.
-
-
 
 ## Project Structure
 
@@ -157,13 +150,6 @@ depsched/
 - Clean separation of CLI, engine, graph, and state layers
 
 
-
-## Resume Description
-
-Built a dependency-aware task scheduler with incremental rebuild support, DAG validation, and persistent state management. Implemented topological graph execution and cascading invalidation similar to build systems and CI workflow engines.
-
-
-
 ## License
 
-MIT (or choose your preferred license)
+MIT 
